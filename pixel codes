@@ -1,0 +1,60 @@
+#code 1 
+from PIL import Image
+
+colour_start = (200, 200, 200)
+colour_end   = (266, 266, 266)
+n = 104
+
+#file name
+name = 'photo_X.jpg'
+
+#This while loop allows the program to run through the first 10 files
+while n <= 173:
+
+    #counter keeps track of the number of pixels which are the desired rgb
+    counter = 0
+    #rgb control the r,g,b value of desired pixel (makes them all the same)
+    rgb = 200
+
+    #changes the file name so runs through different file
+    print(name.replace("X", str(n)))
+    im = Image.open(name.replace("X", str(n)))
+
+    #converts all pixel rgb values into string
+    pixel_values = list(im.getdata())
+
+    #makes sures runs rgb values until 256
+    for i in range(len(pixel_values)):
+        if pixel_values[i] > colour_start and pixel_values[i] < colour_end:
+            counter += 1
+
+    #prints number of desired pixels in file...
+    print(counter)
+    n += 1
+
+
+#code 2 
+
+from PIL import Image
+def calculate_white_pixel_percentage(image_path):
+    im = Image.open(image_path)
+
+    imageSizeW, imageSizeH = im.size
+
+    total_pixels = imageSizeW * imageSizeH
+    white_pixels = 0
+
+    for i in range(imageSizeW):
+        for j in range(imageSizeH):
+            pixVal = im.getpixel((i, j))
+            if pixVal > (200,200,200) and pixVal < (255,255,255):
+                white_pixels += 1
+
+    white_pixel_percentage = (white_pixels / total_pixels) * 100
+
+    return white_pixel_percentage
+
+# Example usage
+image_path = 'images'
+percentage = calculate_white_pixel_percentage(image_path)
+print(f"The percentage of white pixels in the image is: {percentage}%")
